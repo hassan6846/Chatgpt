@@ -8,11 +8,12 @@ import Chat from "./screens/Chat/Chat";
 import {NavigationContainer} from "@react-navigation/native"
 //stacks
 import {CardStyleInterpolators, createStackNavigator} from "@react-navigation/stack"
-
+import {StatusBar} from "expo-status-bar"
 const Stack=createStackNavigator()
 export default function App() {
   return (
      <NavigationContainer>
+      <StatusBar style="auto"/>
       <Stack.Navigator>
         <Stack.Screen options={{headerShown:false,cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS}} name="Onboarding" component={Onboarding}/> 
         <Stack.Screen options={{headerShown:false,cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS}} name="Auth" component={Auth}/>

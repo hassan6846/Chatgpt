@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, KeyboardAvoidingView,Image } from 'react-native'
 import React from 'react'
 const icon = require('../../assets/logo.png')
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -7,7 +7,7 @@ import { Input, Button, Divider } from "@rneui/themed"
 import { Colors } from '../../utils/Colors'
 const Auth = ({navigation}:{navigation:any}) => {
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
       <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", height: 150 }}>
         <Image style={{ height: 40, width: 40, objectFit: "contain" }} source={icon} />
       </View>
@@ -57,7 +57,7 @@ const Auth = ({navigation}:{navigation:any}) => {
         <Divider orientation="vertical" width={1} />
         <Text style={{color:"#10A37F"}}>Privacy Policy</Text>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 const styles = StyleSheet.create({
