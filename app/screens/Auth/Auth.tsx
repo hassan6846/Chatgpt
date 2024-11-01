@@ -15,7 +15,7 @@ const Auth = ({navigation}:{navigation:any}) => {
       {/* Email Container */}
       <View>
         <Input style={{ marginTop: 20, marginBottom: -20 }} inputStyle={{ borderWidth: 1, padding: 13, borderRadius: 10, borderColor: "#C2C8D0" }} inputContainerStyle={{ borderColor: "#fff" }} placeholder='Email address*' />
-        <Button buttonStyle={{ height: 50, borderRadius: 8 }} containerStyle={{ padding: 10 }} color="#10A37F"  onPress={()=>navigation.navigate("Stack",{screen:"Chat"})} title="Continue" />
+        <Button buttonStyle={{ height: 50, borderRadius: 8 }} containerStyle={{ padding: 10 }} color="#10A37F"  onPress={()=>navigation.navigate("Chat")} title="Continue" />
         {/* Text container */}
         <View style={{ flexDirection: "row", justifyContent: 'center', columnGap: 10, marginTop: 5, }}>
           <Text style={styles.Signup} >Don't have an account?</Text>
