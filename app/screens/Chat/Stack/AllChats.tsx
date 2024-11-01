@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const Sidebar = () => {
+const AllChats = () => {
   return (
     <View>
-      <Text>Sidebar</Text>
+      <Text>AllChats</Text>
     </View>
   )
 }
 
-export default Sidebar
+export default AllChats

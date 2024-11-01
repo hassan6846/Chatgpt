@@ -1,5 +1,5 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const genAI = new GoogleGenerativeAI(process.env.GPT_API)
+const genAI = new GoogleGenerativeAI(process.env.GPT_API);
 
 const Chatbot = async (req, res, next) => {
     const { prompt } = req.body;
@@ -9,17 +9,19 @@ const Chatbot = async (req, res, next) => {
 
         // Generate content based on the prompt
         const result = await model.generateContent(prompt);
-        const response = await result.response;
+        const response = result.response;
 
         // Extract only the content from the response
         const content = response.candidates[0].content.parts[0].text;
 
         // Return the content in the response
         res.status(200).json({ data: content });
-   
+        console.log(content); // Log the actual content
+        
     } catch (error) {
         console.error("Error generating content:", error);
         res.status(500).json({ status: "error", data: error.message });
     }
-}
-module.exports={Chatbot}
+};
+
+module.exports = { Chatbot };
