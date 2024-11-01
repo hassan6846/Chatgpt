@@ -1,5 +1,5 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const genAI = new GoogleGenerativeAI('AIzaSyBnYTKW2lx3OsnoSDw-lMv3L53AeEZ37RI')
+const genAI = new GoogleGenerativeAI(process.env.GPT_API)
 
 const Chatbot = async (req, res, next) => {
     const { prompt } = req.body;
