@@ -13,11 +13,12 @@ const Stack=createStackNavigator()
 export default function App() {
   return (
      <NavigationContainer>
-
+<StatusBar style="auto"/>
       <Stack.Navigator>
+        
         <Stack.Screen options={{headerShown:false,cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS}} name="Onboarding" component={Onboarding}/> 
         <Stack.Screen options={{headerShown:false,cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS}} name="Auth" component={Auth}/>
-        <Stack.Screen options={{headerShown:false,cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS}} name="Chat" component={Chat}/>
+        <Stack.Screen options={{headerShown:false,cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS,cardStyle:{backgroundColor:"#fff"}}} name="Chat" component={Chat}/>
       </Stack.Navigator>
      </NavigationContainer>
   );
