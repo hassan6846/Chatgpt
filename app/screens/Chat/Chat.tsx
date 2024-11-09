@@ -3,7 +3,7 @@ import { View, TextInput, Button, StyleSheet, SafeAreaView, Text } from 'react-n
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 // Initialize the Google Generative AI instance with your API key
-const genAI = new GoogleGenerativeAI('AIzaSyAce9vOu6Bm6qijMzA91oTUu9O_MA2sLQY'); // Use your actual API key
+const genAI = new GoogleGenerativeAI(process.env.GPT_KEY); // Use your actual API key
 
 const Chat = () => {
   const [message, setMessage] = useState('');
@@ -11,22 +11,18 @@ const Chat = () => {
 
   const handleSend = useCallback(() => {
     if (message.trim()) {
-      // Use Google Generative AI to process the prompt
       const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-
-      model
+         model
         .generateContent(message)
         .then((result) => {
-          console.log('API Response:', result);  // Log the response to check structure
-
-          // Assuming response structure contains the reply content
-          setResponse(result.response.candidates[0].content.parts[0].text);  // Adjust according to actual response
+          console.log('API Response:', result); 
+          setResponse(result.response.candidates[0].content.parts[0].text);
         })
         .catch((error) => {
           console.error('Error:', error);
         });
 
-      setMessage('');  // Clear input after sending
+      setMessage('');  
     }
   }, [message]);
 
