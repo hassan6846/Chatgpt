@@ -1,75 +1,80 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
-import { GiftedChat } from 'react-native-gifted-chat';
+import { View, TextInput, Button, StyleSheet, SafeAreaView, Text } from 'react-native';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+
+// Initialize the Google Generative AI instance with your API key
+const genAI = new GoogleGenerativeAI('AIzaSyAce9vOu6Bm6qijMzA91oTUu9O_MA2sLQY'); // Use your actual API key
 
 const Chat = () => {
-  const [messages, setMessages] = useState([]);
- 
-  const onSend = useCallback((newMessages = []) => {
-    setMessages((previousMessages) => GiftedChat.append(previousMessages, newMessages));
+  const [message, setMessage] = useState('');
+  const [response, setResponse] = useState('');
 
-    const prompt = newMessages[0].text;
+  const handleSend = useCallback(() => {
+    if (message.trim()) {
+      // Use Google Generative AI to process the prompt
+      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
-    fetch('http://10.0.2.2:4001/api/v1/chat', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ prompt }),
-    })
-      .then((response) => response.json()
-    
-    )
-      .then((response) => {
-        console.log('API Response:', response);  // Log the response to check structure
+      model
+        .generateContent(message)
+        .then((result) => {
+          console.log('API Response:', result);  // Log the response to check structure
 
-        // Accessing data.data to get the text content
-        const replyMessage = {
-          _id: Math.random().toString(),
-          text: response.data,  // Adjusted to use data.data for the content
-          createdAt: new Date(),
-          user: { _id: 2, name: 'Bot' },
-        };
+          // Assuming response structure contains the reply content
+          setResponse(result.response.candidates[0].content.parts[0].text);  // Adjust according to actual response
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
 
-        setMessages((previousMessages) => GiftedChat.append(previousMessages, [replyMessage]));
-        console.log(response)
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  }, []);
+      setMessage('');  // Clear input after sending
+    }
+  }, [message]);
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 60 : 0}
-    >
-     
-      <GiftedChat
-        messages={messages}
-        onSend={(newMessages) => onSend(newMessages)}
-        user={{ _id: 1 }}
-        placeholder="Type a message..."
-      />
-    </KeyboardAvoidingView>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.chatContainer}>
+        {/* Input field */}
+        <TextInput
+          style={styles.input}
+          value={message}
+          onChangeText={setMessage}
+          placeholder="Type your message"
+        />
+
+        {/* Send button */}
+        <Button title="Send" onPress={handleSend} />
+
+        {/* Display server response */}
+        {response ? <View style={styles.responseContainer}><Text>{response}</Text></View> : null}
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
   },
-  header: {
-    backgroundColor: '#6200ee',
-    padding: 16,
-    alignItems: 'center',
+  chatContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    padding: 20,
   },
-  headerText: {
-    color: '#ffffff',
-    fontSize: 20,
-    fontWeight: 'bold',
+  input: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    marginBottom: 10,
+    paddingLeft: 10,
+    borderRadius: 5,
+  },
+  responseContainer: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: '#f1f1f1',
+    borderRadius: 5,
   },
 });
 
